@@ -16,10 +16,10 @@ namespace LabTwo
             this.itemName = itemName;
             this.price = price;
         }
-        public void GetItemName()
+        public string GetItemName()
         {
             string a = itemName.ToString();
-            Console.WriteLine(a);
+            return a;
         }
 
     }

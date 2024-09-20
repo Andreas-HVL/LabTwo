@@ -29,9 +29,9 @@ namespace LabTwo
         }
         public void PrintCart()
         {
-            foreach(var item in _cart)
+            foreach(Product item in _cart)
             {
-                Product.GetItemName();
+                Console.WriteLine();
             }
         }
         public void CartItemAdd(Product input)
