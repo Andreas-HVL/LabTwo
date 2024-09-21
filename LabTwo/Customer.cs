@@ -12,20 +12,18 @@ namespace LabTwo
     {
         public string userName { get; private set; }
         private string password { get; set; }
-        public string premiumLevel { get; private set; }
         private List<Product> _cart { get; set; }
-        public Customer(string userName, string password, string premiumLevel = "Base")
+        public Customer(string userName, string password)
         {
             this.userName = userName;
             this.password = password;
-            this.premiumLevel = premiumLevel;
             _cart = new List<Product>();
         }
         public void PrintInfo()
         {
             Console.WriteLine("Here's your account information:");
             Console.WriteLine($"Current User: {userName}");
-            Console.WriteLine($"Premium Level: {premiumLevel}");
+            Console.WriteLine($"Premium Level: Base");
             Console.WriteLine($"Password: {password}");
         }
         public void PrintCart()
@@ -36,9 +34,11 @@ namespace LabTwo
                 return;
             }
             Console.WriteLine("Products in Cart:");
-            foreach (Product item in _cart)
             {
-                Console.WriteLine($"Item: {item.itemName}, Price: ${item.price}");
+                foreach (Product item in _cart)
+                {
+                    Console.WriteLine($"Item: {item.itemName}, Price: ${item.price}");
+                }
             }
         }
         public void CartItemAdd(Product input)
