@@ -23,15 +23,22 @@ namespace LabTwo
         }
         public void PrintInfo()
         {
+            Console.WriteLine("Here's your account information:");
             Console.WriteLine($"Current User: {userName}");
             Console.WriteLine($"Premium Level: {premiumLevel}");
             Console.WriteLine($"Password: {password}");
         }
         public void PrintCart()
         {
-            foreach(Product item in _cart)
+            if (_cart.Count == 0)
             {
-                Console.WriteLine();
+                Console.WriteLine("Your cart is empty.");
+                return;
+            }
+            Console.WriteLine("Products in Cart:");
+            foreach (Product item in _cart)
+            {
+                Console.WriteLine($"Item: {item.itemName}, Price: ${item.price}");
             }
         }
         public void CartItemAdd(Product input)
