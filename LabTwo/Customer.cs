@@ -11,9 +11,9 @@ namespace LabTwo
     public class Customer
     {
         public string userName { get; private set; }
-        private string password { get; set; }
+        public string password { get; private set; }
         public List<Product> _cart { get; private set; }
-        private string premiumLevel { get; set; }
+        public string premiumLevel { get; private set; }
         
         public Customer(string userName, string password, string premiumLevel = "Base")
         {

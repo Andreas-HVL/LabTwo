@@ -1,47 +1,34 @@
 ﻿using LabTwo;
+using System;
 using System.Text.Json;
 //Webstore
 /*
-PremiumCustomer Bob = new("Bob", "John", "Gold");
-Customer john = new("John", "bob");
-Product Apple = new("Apple", 20);
-Product Banana = new("Banana", 40);
-
-john.PrintInfo();
-john.CartItemAdd(Apple);
-john.CartItemAdd(Apple);
-john.CartItemAdd(Apple);
-john.CartItemAdd(Banana);
-john.CartItemAdd(Banana);
-john.PrintCart();
-Console.WriteLine("");
-Console.WriteLine("");
-
-Bob.PrintInfo();
-Bob.CartItemAdd(Apple);
-Bob.CartItemAdd(Apple);
-Bob.CartItemAdd(Apple);
-Bob.CartItemAdd(Banana);
-Bob.CartItemAdd(Banana);
-Bob.CartItemAdd(Banana);
-Bob.PrintCart();
-Console.ReadKey();
-*/
-
-var products = new List<Product>
+Manager.UserListCreator();
+Manager.ProductListCreator();
+Customer[] customers = Manager.LoadUsers();
+Product[] products = Manager.LoadProducts();
+foreach (Customer customer in customers)
 {
-    new Product("Apple", 20),
-    new Product("Banana", 15)
-};
-
-string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-string productFilePath = Path.Combine(baseDirectory, "Json", "Products.json");
-string jsonFolderPath = Path.Combine(baseDirectory, "Json");
-if (!Directory.Exists(jsonFolderPath))
-{
-    Directory.CreateDirectory(jsonFolderPath);
+    Console.WriteLine(customer.userName);
 }
-Console.WriteLine(jsonFolderPath);
-string jsonData = JsonSerializer.Serialize(products);
-File.WriteAllText(productFilePath, jsonData);
+Console.WriteLine();
+Console.WriteLine();
+foreach (Product product in products)
+{
+    Console.WriteLine(product.itemName);
+}
+*/
+/*
+Customer[] customers = Manager.LoadUsers();
+Product[] products = Manager.LoadProducts();
+Customer? CurrentCustomer = customers.FirstOrDefault(c => c.userName == "Knatte");
+Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Apple");
+CurrentCustomer.PrintInfo();
+CurrentCustomer.CartItemAdd(CurrentProduct);
+CurrentCustomer.CartItemAdd(CurrentProduct);
+CurrentCustomer.CartItemAdd(CurrentProduct);
+*/
+Writer writer = new Writer();
+writer.FastWrite("I removed this.input = input; since you’re not using it for anything currently. You can add it back if you decide to pass input when creating a Writer object.");
+
 Console.ReadKey();
