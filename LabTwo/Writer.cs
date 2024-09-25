@@ -16,6 +16,7 @@ namespace LabTwo
                 Console.Write(c);
                 Thread.Sleep(50);
             }
+            Console.WriteLine();
         }
         public void FastWrite(string input)
         {
@@ -24,6 +25,7 @@ namespace LabTwo
                 Console.Write(c);
                 Thread.Sleep(10);
             }
+            Console.WriteLine();
         }
 
     }

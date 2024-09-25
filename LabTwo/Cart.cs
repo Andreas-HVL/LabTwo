@@ -15,7 +15,7 @@ namespace LabTwo
             cart = new List<Product>();
         }
         
-        static public void CartManager(List<Product> cart, int discount = 0)
+        static public void CartPrinter(List<Product> cart, int discount = 0)
         {
             if (cart.Count == 0)
             {

@@ -8,8 +8,14 @@ using LabTwo;
 
 namespace LabTwo
 {
+    public struct userData
+    {
+        string pw;
+        string premLvl;
+    }
     public class Customer
     {
+        
         public string userName { get; private set; }
         public string password { get; private set; }
         public List<Product> _cart { get; private set; }
@@ -29,10 +35,15 @@ namespace LabTwo
             Console.WriteLine($"Password: {password}");
             Console.WriteLine($"Premium Level: {premiumLevel}");
         }
-        public void PrintCart() => Cart.CartManager(_cart);
+        public void PrintCart() => Cart.CartPrinter(_cart);
         public void CartItemAdd(Product input)
         {
             _cart.Add(input);
+        }
+        public Dictionary<string, userData> Serializer()
+        {
+
+            return ;
         }
     }
 
@@ -40,7 +51,7 @@ namespace LabTwo
     {
         private string premiumLevel { get; set; }
         private int discount {  get; set; }
-        public void printCart() => Cart.CartManager(_cart, discount);
+        public void printCart() => Cart.CartPrinter(_cart, discount);
         public PremiumCustomer(string userName, string password, string premiumLevel) : base(userName, password, premiumLevel)
         {
             if (premiumLevel == "Bronze")
@@ -54,7 +65,7 @@ namespace LabTwo
                 this.discount = 15;
             }
         }
-        public void PrintCart() => Cart.CartManager(_cart, discount);
+        public void PrintCart() => Cart.CartPrinter(_cart, discount);
     }
 
 }
