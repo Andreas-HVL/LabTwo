@@ -17,7 +17,6 @@ namespace LabTwo
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string productFilePath = Path.Combine(baseDirectory, "Json", "Products.json");
-            string jsonFolderPath = Path.Combine(baseDirectory, "Json");
             string userFile = File.ReadAllText(productFilePath);
             Product[] result = JsonSerializer.Deserialize<Product[]>(userFile);
             products = result;
@@ -28,7 +27,6 @@ namespace LabTwo
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string userFilePath = Path.Combine(baseDirectory, "Json", "Users.json");
-            string jsonFolderPath = Path.Combine(baseDirectory, "Json");
             string userFile = File.ReadAllText(userFilePath);
             Customer[] result = JsonSerializer.Deserialize<Customer[]>(userFile);
             customers = result;
@@ -38,15 +36,14 @@ namespace LabTwo
         public static void UserListCreator()
         {
             List<Customer> users = new List<Customer>
-            // Dictionary<string, string> = 
-        {
+            { 
             new Customer("Knatte", "123"),
             new Customer("Fnatte", "321"),
             new Customer("Tjatte", "213")
-        };
+            };
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string userFilePath = Path.Combine(baseDirectory, "Json", "Users.json");
             string jsonFolderPath = Path.Combine(baseDirectory, "Json");
+            string userFilePath = Path.Combine(baseDirectory, "Json", "Users.json");
             if (!Directory.Exists(jsonFolderPath))
             {
                 Directory.CreateDirectory(jsonFolderPath);
@@ -66,8 +63,8 @@ namespace LabTwo
             new Product("Honey", 200)
         };
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string productFilePath = Path.Combine(baseDirectory, "Json", "Products.json");
             string jsonFolderPath = Path.Combine(baseDirectory, "Json");
+            string productFilePath = Path.Combine(baseDirectory, "Json", "Products.json");
             if (!Directory.Exists(jsonFolderPath))
             {
                 Directory.CreateDirectory(jsonFolderPath);
@@ -79,6 +76,19 @@ namespace LabTwo
             }
             
         }
+        private static string GetCustomersFilePath()
+        {
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            return Path.Combine(baseDirectory, "Json", "Users.Json");
+        }
+        public static void SaveCustomers(Customer[] customers)
+        {
+            string customersFilePath = GetCustomersFilePath();
+
+            string JsonData = JsonSerializer.Serialize(customers);
+            File.WriteAllText(customersFilePath, JsonData);
+        }
+       
     }
 }
         

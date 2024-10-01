@@ -7,115 +7,88 @@ using System.Text.Json;
 /// 
 
 //Webstore
-Writer writer = new Writer();
 Manager.UserListCreator();
 Manager.ProductListCreator();
-Customer[] customers = Manager.LoadUsers();
+MenuOptions program = new MenuOptions();
 Product[] products = Manager.LoadProducts();
 ConsoleKeyInfo cki;
-
-/// Generating Files and loading them
-/*
-Manager.UserListCreator();
-Manager.ProductListCreator();
-Customer[] customers = Manager.LoadUsers();
-Product[] products = Manager.LoadProducts();
-foreach (Customer customer in customers)
-{
-    Console.WriteLine(customer.userName);
-}
-Console.WriteLine();
-Console.WriteLine();
-foreach (Product product in products)
-{
-    Console.WriteLine(product.itemName);
-}
-*/
-
-/// How to select customer and product from arrays
-/*
-Customer[] customers = Manager.LoadUsers();
-Product[] products = Manager.LoadProducts();
-Customer? CurrentCustomer = customers.FirstOrDefault(c => c.userName == "Knatte");
-Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Apple");
-CurrentCustomer.PrintInfo();
-CurrentCustomer.CartItemAdd(CurrentProduct);
-CurrentCustomer.CartItemAdd(CurrentProduct);
-CurrentCustomer.CartItemAdd(CurrentProduct);
-*/
-
-/// Writer Tests
-/*
-
-writer.FastWrite("Dette er en lang test som jeg bruger til at undersøge om min Writer-Klasse fungerer som den skal, og om jeg skal være forsigtig med hvor meget den skriver ift. linjebrud eller hvordan og hvorledes.");
-writer.SlowWrite("Ik?");
-*/
-
-/// ReadKey Setup for Menu Handling
-/*
-ConsoleKeyInfo cki;
-Console.WriteLine("Tryk 1,2 eller 3");
-do
-{
-    cki = Console.ReadKey(true);
-}
-while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3');
-Console.WriteLine("There we go");
-*/
-
-/// Current Actual Program
-/*
-writer.FastWrite("Welcome to the store");
-writer.FastWrite("Press 1 to login:");
-writer.FastWrite("Press 2 to create a user:");
-do
-{
-    cki = Console.ReadKey(true);
-}
-while (cki.KeyChar != '1' && cki.KeyChar != '2');
-*/
-
-/*
-string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-string userFilePath = Path.Combine(baseDirectory, "Json", "Users.json");
-string jsonFolderPath = Path.Combine(baseDirectory, "Json");
-Console.WriteLine(userFilePath);
-string tempFilePath = "../json/Users.Json";
-Console.WriteLine(tempFilePath);
-
-Customer? CurrentCustomer = customers.FirstOrDefault(c => c.userName == "Knatte");
-Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Apple");
-foreach product in pproduct { 
-    "create as Clas I can call by name"
-}
-
-CurrentCustomer.CartItemAdd(Apple);
-
-1{ if 1 }
-Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Apple");
-CurrentCustomer.CartItemAdd(CurrentProduct);
-if 2{
-    Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Banana");
-    CurrentCustomer.CartItemAdd(CurrentProduct);
-}
-*/
-int i = 0;
-foreach (Customer customer in customers)
-{ 
-    Console.WriteLine(i + " " + customer.userName);
-    i++;
-}
-i = 0;
-Console.WriteLine();
-Console.WriteLine();
-foreach (Product product in products)
-{
-    Console.WriteLine(i + " " + product.itemName);
-    i++;
-}
+bool isLoggedIn = false;
+bool stayInMenu = true;
+Customer? CurrentCustomer = null;
 
 do
 {
-    cki = Console.ReadKey(true);
+    MenuWriter.Welcome();
+    do
+    {
+        cki = Console.ReadKey(true);
+    }
+    while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3');
+    switch (cki.KeyChar)
+    {
+        case '1':
+            Console.Clear();
+            isLoggedIn = program.Login(out CurrentCustomer, out isLoggedIn);
+            if (isLoggedIn)
+            {
+                stayInMenu = false;
+            }
+            break;
+        case '2':
+            program.CreateCustomer();
+            break;
+        case '3':
+            program.CustomerList();
+            break;
+    }
+} while (stayInMenu);
+while (isLoggedIn)
+{
+    Console.Clear();
+    MenuWriter.LoggedInMenu();
+    do
+    {
+        cki = Console.ReadKey(true);
+    }
+    while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4');
+    switch(cki.KeyChar)
+    {
+        case '1':
+            Console.Clear();
+            CurrentCustomer.PrintInfo();
+            Console.WriteLine("Press any key to return to Main Menu");
+            Console.ReadKey();
+            break;
+        case '2':
+            Console.Clear();
+            CurrentCustomer.PrintCart();
+            Console.WriteLine("Press any key to return to Main Menu");
+            Console.ReadKey();
+            break;
+        case '3':
+            Console.Clear();
+            Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Apple");
+            CurrentCustomer.CartItemAdd(CurrentProduct);
+            Console.WriteLine("Press any key to return to Main Menu");
+            Console.ReadKey();
+            break;
+        case '4':
+            Console.Clear();
+            Console.WriteLine("Processing Payment");
+            Thread.Sleep(1500);
+            Console.WriteLine("Thanks for shopping, goodbye!");
+            Console.WriteLine("Please press any key to close the store");
+            Console.ReadKey();
+            isLoggedIn = false;
+            break;
+    }
 }
-while (cki.KeyChar != '1' && cki.KeyChar != '2');
+
+/// 1: View user info
+/// 2: View Cart
+/// 3: Add/remove from cart
+/// 4: Checkout
+
+
+
+
