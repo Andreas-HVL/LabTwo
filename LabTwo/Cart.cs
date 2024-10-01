@@ -78,7 +78,7 @@ namespace LabTwo
                 Console.WriteLine("Products in Cart:");
                 foreach (var item in groupedCart)
                 {
-                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency} {item.TotalPrice}");
+                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency} {Math.Round(item.TotalPrice - (item.TotalPrice * discount / 100)),2}");
                 }
                 Console.WriteLine($"Total Price {currency} {totalCartPrice}");
             }
@@ -87,7 +87,7 @@ namespace LabTwo
                 Console.WriteLine("Products in Cart:");
                 foreach (var item in groupedCart)
                 {
-                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency}{item.TotalPrice - (item.TotalPrice * discount / 100)}");
+                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency}{Math.Round(item.TotalPrice - (item.TotalPrice * discount / 100)), 2}");
                 }
                 Console.WriteLine($"Total Price {currency}{totalCartPrice - (totalCartPrice * discount / 100)}");
             }

@@ -39,9 +39,12 @@ namespace LabTwo
 
         public void PrintCart() => Cart.CartPrinter(_cart);
 
-        public void CartItemAdd(Product input)
+        public void CartItemAdd(Product input, int quantity)
         {
-            _cart.Add(input);
+            for (int i = 0; i < quantity; i++)
+            {
+                _cart.Add(input);
+            }
         }
         public void CartItemRemove(Product input)
         {

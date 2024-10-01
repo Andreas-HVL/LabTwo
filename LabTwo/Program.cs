@@ -10,7 +10,7 @@ using System.Text.Json;
 Manager.UserListCreator();
 Manager.ProductListCreator();
 MenuOptions program = new MenuOptions();
-Product[] products = Manager.LoadProducts();
+
 ConsoleKeyInfo cki;
 bool isLoggedIn = false;
 bool stayInMenu = true;
@@ -65,9 +65,7 @@ while (isLoggedIn)
             break;
         case '3':
             Console.Clear();
-            Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Apple");
-            CurrentCustomer.CartItemAdd(CurrentProduct);
-            MenuWriter.AnyKeyReturn();
+            Product.AddToCart(CurrentCustomer);
             break;
         case '4':
             Console.Clear();
