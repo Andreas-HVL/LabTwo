@@ -29,8 +29,7 @@ namespace LabTwo
         }
         public static void Welcome()
         {
-            string message = "Welcome to the store \nPlease select from the below options";
-            foreach (char c in message)
+            foreach (char c in "Welcome to the store \nPlease select from the below options")
             {
                 Console.Write(c);
                 Thread.Sleep(10);
@@ -57,6 +56,22 @@ namespace LabTwo
             Console.WriteLine("3: Add/remove items from cart");
             Console.WriteLine("4: Checkout");
         }
-
+        public static void AnyKeyReturn()
+        {
+            Console.WriteLine("Press any key to return to Main Menu");
+            Console.ReadKey();
+        }
+        public static void ExitMenu()
+        {
+            Console.WriteLine("Processing Payment");
+            foreach (char c in ".......")
+            {
+                Console.Write(c);
+                Thread.Sleep(200);
+            }
+            Console.WriteLine("\nThanks for shopping, goodbye!");
+            Console.WriteLine("Please press any key to close the store");
+            Console.ReadKey();
+        }
     }
 }

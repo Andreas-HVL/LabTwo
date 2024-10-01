@@ -56,29 +56,22 @@ while (isLoggedIn)
         case '1':
             Console.Clear();
             CurrentCustomer.PrintInfo();
-            Console.WriteLine("Press any key to return to Main Menu");
-            Console.ReadKey();
+            MenuWriter.AnyKeyReturn();
             break;
         case '2':
             Console.Clear();
             CurrentCustomer.PrintCart();
-            Console.WriteLine("Press any key to return to Main Menu");
-            Console.ReadKey();
+            MenuWriter.AnyKeyReturn();
             break;
         case '3':
             Console.Clear();
             Product? CurrentProduct = products.FirstOrDefault(c => c.itemName == "Apple");
             CurrentCustomer.CartItemAdd(CurrentProduct);
-            Console.WriteLine("Press any key to return to Main Menu");
-            Console.ReadKey();
+            MenuWriter.AnyKeyReturn();
             break;
         case '4':
             Console.Clear();
-            Console.WriteLine("Processing Payment");
-            Thread.Sleep(1500);
-            Console.WriteLine("Thanks for shopping, goodbye!");
-            Console.WriteLine("Please press any key to close the store");
-            Console.ReadKey();
+            MenuWriter.ExitMenu();
             isLoggedIn = false;
             break;
     }
