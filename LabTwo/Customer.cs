@@ -8,19 +8,15 @@ using LabTwo;
 
 namespace LabTwo
 {
-    public struct userData
-    {
-        string pw;
-        string premLvl;
-    }
     public class Customer
     {
         public string Username { get; private set; }
         public string Password { get; private set; }
         public List<Product> _cart { get; private set; }
         public string premiumLevel { get; private set; }
+        public string CustomerType { get; protected set; } = "Customer";
 
-       
+
         public Customer(string username, string password, string premiumLevel = "Base")
         {
             this.Username = username;
@@ -37,7 +33,7 @@ namespace LabTwo
             Console.WriteLine($"Premium Level: {premiumLevel}");
         }
 
-        public void PrintCart() => Cart.CartPrinter(_cart);
+        public virtual void PrintCart() => Cart.CartPrinter(_cart);
 
         public void CartItemAdd(Product input, int quantity)
         {
@@ -46,10 +42,7 @@ namespace LabTwo
                 _cart.Add(input);
             }
         }
-        public void CartItemRemove(Product input)
-        {
-            _cart.Remove(input);
-        }
+       
         public bool Login(string inputUsername, string inputPassword)
         {
             return this.Username.Equals(inputUsername, StringComparison.OrdinalIgnoreCase) && this.Password == inputPassword;
@@ -58,10 +51,12 @@ namespace LabTwo
 
     public class PremiumCustomer : Customer
     {
-        private int discount {  get; set; }
-        public void printCart() => Cart.CartPrinter(_cart, discount);
+        public int discount {  get; set; }
+        
         public PremiumCustomer(string Username, string password, string premiumLevel) : base(Username, password, premiumLevel)
         {
+            this.CustomerType = "PremiumCustomer"; 
+
             discount = premiumLevel switch
             {
                 "Bronze" => 5,
@@ -70,7 +65,10 @@ namespace LabTwo
                 _ => 0
             };
         }
-        public void PrintCart() => Cart.CartPrinter(_cart, discount);
+        public override void PrintCart()
+        {
+            Cart.CartPrinter(_cart, discount);  // Pass the discount to the CartPrinter
+        }
     }
 
 }

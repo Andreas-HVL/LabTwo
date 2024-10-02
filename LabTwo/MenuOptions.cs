@@ -16,19 +16,24 @@ namespace LabTwo
         public bool Login(out Customer? CurrentCustomer, out bool isLoggedIn)
         {
             string usernameInput = "";
-            bool stayInLoginSubLoop = true;
-            isLoggedIn = false;
-            bool stayInMenu = true;
-            CurrentCustomer = null;
-            ConsoleKeyInfo cki;
+            bool stayInLoginSubLoop = true; // Variable used to ensure Login-process continues until customer is correctly logged in, or chooses to leave
+            isLoggedIn = false; // Variable used to navigate to the logged in part of the code
+            bool stayInMenu = true; // Variable used to stay on the main menu, allowing the user to hop between different main menu options
+            CurrentCustomer = null; // Variable used to store the logged in user for later use
+            ConsoleKeyInfo cki; // Variable to take keypress inputs from the user
+
+            // Do-While loop to ensure customer can attempt logging in several times over
             do
             {
+                // Loop ensuring customer inputs a username that isn't null
                 do
                 {
                     Console.Clear();
                     Console.Write("Username: ");
                     usernameInput = Console.ReadLine();
                 } while (string.IsNullOrWhiteSpace(usernameInput));
+
+                // Parses through the list of customers, and looks for a valid match from the customer input
                 CurrentCustomer = _customers.FirstOrDefault(c => c.Username.Equals(usernameInput, StringComparison.OrdinalIgnoreCase));
                 if (CurrentCustomer != null)
                 {
@@ -67,6 +72,7 @@ namespace LabTwo
                     Console.Clear();
                 }
             } while (!isLoggedIn && stayInLoginSubLoop);
+            // On succesful login, leaves the login loop, and proceeds to logged-in main menu
             return isLoggedIn;
         }
 
@@ -77,7 +83,10 @@ namespace LabTwo
             ConsoleKeyInfo cki;
             Console.WriteLine("Select a username.");
             string newUserName = Console.ReadLine();
-            
+
+            // Parses through the list of customers, to either allow the user to progress with user-creation, or informs the user that a duplicate account exists
+            if (!_customers.Any(c => c.Username.Equals(newUserName, StringComparison.OrdinalIgnoreCase)))
+            { 
             Console.WriteLine("Select a password");
             string newPassword = Console.ReadLine();
 
@@ -93,32 +102,35 @@ namespace LabTwo
                 cki = Console.ReadKey(true);
             }
             while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4');
-            if (cki.KeyChar == '1')
+            switch (cki.KeyChar)
             {
-                premiumLevel = "Base";
+                case '1':
+                    premiumLevel = "Base";
+                    break;
+                case '2':
+                    premiumLevel = "Bronze";
+                    break;
+                case '3':
+                    premiumLevel = "Silver";
+                    break;
+                case '4':
+                    premiumLevel = "Gold";
+                    break;
             }
-            else if (cki.KeyChar == '2')
-            {
-                premiumLevel = "Bronze";
-            }
-            else if (cki.KeyChar == '3')
-            {
-                premiumLevel = "Silver";
-            }
-            else if (cki.KeyChar == '4')
-            {
-                premiumLevel = "Gold";
-            }
+            
             Console.WriteLine();
-            if (!_customers.Any(c => c.Username.Equals(newUserName, StringComparison.OrdinalIgnoreCase)))
-            {
-                Customer newCustomer = new Customer(newUserName, newPassword, premiumLevel);
-                _customers.Add(newCustomer);
-                Manager.SaveCustomers(_customers.ToArray());
+            // Creates the customer as either a base customer or premium
+            Customer newCustomer = premiumLevel == "Base"
+                ? new Customer(newUserName, newPassword, premiumLevel)   // Regular customer for Base level
+                : new PremiumCustomer(newUserName, newPassword, premiumLevel); // Premium customer for other levels
+
+            _customers.Add(newCustomer);
+            Manager.SaveCustomers(_customers.ToArray());
             }
             else
             {
-                Console.WriteLine($"Customer Already Exists. try to log in instead.");
+                Console.Clear();
+                Console.WriteLine("Customer Already Exists. Try to log in instead.\n");
                 return false;
             }
             return true;

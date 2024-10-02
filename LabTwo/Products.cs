@@ -21,33 +21,22 @@ namespace LabTwo
         public static void AddToCart(Customer cart)
         {
             ConsoleKeyInfo cki;
-            bool add = false;
-            bool remove = false;
+            bool add = true;
+
             Product[] products = Manager.LoadProducts();
-            Console.WriteLine("Do you want to add or remove products?\n1 to add\n2 to remove");
-            do
+            int discount = 0;
+            if (cart is PremiumCustomer premiumCustomer)
             {
-                cki = Console.ReadKey(true);
+                discount = premiumCustomer.discount;  // Get the discount from PremiumCustomer
             }
-            while (cki.KeyChar != '1' && cki.KeyChar != '2');
-            switch (cki.KeyChar)
-            {
-                case '1':
-                    add = true;
-                    break;
-                case '2':
-                    remove = true;
-                    break;
-            }
+
             while (add)
             {
-                Console.WriteLine("available products to buy today.");
-
-                Console.WriteLine();
-
+                Console.Clear();
                 for (int i = 0; i < products.Length; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {products[i].itemName} - {products[i].price:C}");
+                    double discountedPrice = products[i].price * (1 - discount / 100.0);
+                    Console.WriteLine($"{i + 1}) {products[i].itemName} - Your Price: {discountedPrice:C}, Original Price: {products[i].price}");
                 }
                 Console.Write("\nEnter the number of the product you would like to add to your cart:  ");
                 do

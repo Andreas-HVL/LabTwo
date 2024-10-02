@@ -8,25 +8,6 @@ namespace LabTwo
 {
     public class MenuWriter
     {
-       public string input {  get; set; }
-        public void SlowWrite(string input)
-        {
-            foreach (char c in input)
-            {
-                Console.Write(c);
-                Thread.Sleep(50);
-            }
-            Console.WriteLine();
-        }
-        public void FastWrite(string input)
-        {
-            foreach (char c in input)
-            {
-                Console.Write(c);
-                Thread.Sleep(10);
-            }
-            Console.WriteLine();
-        }
         public static void Welcome()
         {
             foreach (char c in "Welcome to the store \nPlease select from the below options")
