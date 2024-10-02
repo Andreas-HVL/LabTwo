@@ -27,7 +27,7 @@ namespace LabTwo
             };
 
             // Generates a string containing a filepath for the json file to be stored.
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string baseDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
             string jsonFolderPath = Path.Combine(baseDirectory, "Json");
             string userFilePath = Path.Combine(baseDirectory, "Json", "Users.json");
 
@@ -52,10 +52,12 @@ namespace LabTwo
             new Product("Banana", 15),
             new Product("Honey", 200)
         };
-        // Generates a string containing a filepath for the json file to be stored.
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Generates a string containing a filepath for the json file to be stored.
+            string baseDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
             string jsonFolderPath = Path.Combine(baseDirectory, "Json");
             string productFilePath = Path.Combine(baseDirectory, "Json", "Products.json");
+
         // If the folder and file are missing, creates them.
             if (!Directory.Exists(jsonFolderPath))
             {
@@ -72,14 +74,14 @@ namespace LabTwo
         // Method used to generate the filepath for the user-file, used in creating the file, and writing to the file
         private static string GetCustomersFilePath()
         {
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string baseDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
             return Path.Combine(baseDirectory, "Json", "Users.Json");
         }
     
         // Function to read the Products-File, and load it into the program.
         public static Product[] LoadProducts()
         {
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string baseDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
             string productFilePath = Path.Combine(baseDirectory, "Json", "Products.json");
             string userFile = File.ReadAllText(productFilePath);
             Product[] result = JsonSerializer.Deserialize<Product[]>(userFile);

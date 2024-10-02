@@ -1,0 +1,23 @@
+[
+  {
+    "Username": "Knatte",
+    "Password": "123",
+    "_cart": [],
+    "premiumLevel": "Base",
+    "CustomerType": "Customer"
+  },
+  {
+    "Username": "Fnatte",
+    "Password": "321",
+    "_cart": [],
+    "premiumLevel": "Base",
+    "CustomerType": "Customer"
+  },
+  {
+    "Username": "Tjatte",
+    "Password": "213",
+    "_cart": [],
+    "premiumLevel": "Gold",
+    "CustomerType": "PremiumCustomer"
+  }
+]
