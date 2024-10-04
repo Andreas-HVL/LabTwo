@@ -9,7 +9,6 @@ using System.Text.Json.Serialization;
 
 namespace LabTwo
 {
-
     // Class to mange the files needed for the program to save data between runs.
     public static class Manager
     {

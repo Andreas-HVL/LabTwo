@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace LabTwo
 {
+    // Class for storing the methods used to navigate the logged out Main Menu
     public class MenuOptions
     {
         public List<Customer> _customers;
+        // Constructor for taking the list of registered customers to allow the program to run
         public MenuOptions()
         {
             _customers = Manager.LoadUsers().ToList();
@@ -63,11 +65,15 @@ namespace LabTwo
                     Console.Clear();
                     Console.WriteLine("User not found.");
                     Console.WriteLine("1: Return to Main Menu");
-                    Console.WriteLine("2: Any key to try again");
+                    Console.WriteLine("2: Create user");
+                    Console.WriteLine("Or press any other key to try again");
                     cki = Console.ReadKey(true);
                     if (cki.KeyChar == '1')
                     {
                         stayInLoginSubLoop = false;
+                    } else if (cki.KeyChar == '2')
+                    {
+                        return CreateCustomer();
                     }
                     Console.Clear();
                 }
@@ -87,54 +93,58 @@ namespace LabTwo
             // Parses through the list of customers, to either allow the user to progress with user-creation, or informs the user that a duplicate account exists
             if (!_customers.Any(c => c.Username.Equals(newUserName, StringComparison.OrdinalIgnoreCase)))
             { 
-            Console.WriteLine("Select a password");
-            string newPassword = Console.ReadLine();
+                Console.WriteLine("Select a password");
+                string newPassword = Console.ReadLine();
 
-            Console.WriteLine("Select Premium-Level");
-            Console.WriteLine("1: Base");
-            Console.WriteLine("2: Bronze");
-            Console.WriteLine("3: Silver");
-            Console.WriteLine("4: Gold");
-            string premiumLevel = "";
+                Console.WriteLine("Select Premium-Level");
+                Console.WriteLine("1: Base");
+                Console.WriteLine("2: Bronze");
+                Console.WriteLine("3: Silver");
+                Console.WriteLine("4: Gold");
+                string premiumLevel = "";
 
-            do
-            {
-                cki = Console.ReadKey(true);
-            }
-            while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4');
-            switch (cki.KeyChar)
-            {
-                case '1':
-                    premiumLevel = "Base";
-                    break;
-                case '2':
-                    premiumLevel = "Bronze";
-                    break;
-                case '3':
-                    premiumLevel = "Silver";
-                    break;
-                case '4':
-                    premiumLevel = "Gold";
-                    break;
-            }
+                do
+                {
+                    cki = Console.ReadKey(true);
+                }
+                while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4');
+                switch (cki.KeyChar)
+                {
+                    case '1':
+                        premiumLevel = "Base";
+                        break;
+                    case '2':
+                        premiumLevel = "Bronze";
+                        break;
+                    case '3':
+                        premiumLevel = "Silver";
+                        break;
+                    case '4':
+                        premiumLevel = "Gold";
+                        break;
+                }
             
-            Console.WriteLine();
-            // Creates the customer as either a base customer or premium
-            Customer newCustomer = premiumLevel == "Base"
-                ? new Customer(newUserName, newPassword, premiumLevel)   // Regular customer for Base level
-                : new PremiumCustomer(newUserName, newPassword, premiumLevel); // Premium customer for other levels
+                Console.WriteLine();
+                // Creates the customer as either a base customer or premium using ternary operator "?" (True) or ":" (False)
+                // (if a then b else c) (a ? b : c)
+                Customer newCustomer = premiumLevel == "Base"
+                    ? new Customer(newUserName, newPassword, premiumLevel)   // Regular customer for Base level
+                    : new PremiumCustomer(newUserName, newPassword, premiumLevel); // Premium customer for other levels
 
-            _customers.Add(newCustomer);
-            Manager.SaveCustomers(_customers.ToArray());
+                _customers.Add(newCustomer);
+                Manager.SaveCustomers(_customers.ToArray());
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("Customer Already Exists. Try to log in instead.\n");
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
                 return false;
             }
             return true;
         }
+        // Prints a list of all registered usernames
         public void CustomerList()
         {
             int i = 0;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace LabTwo
 {
+    // Class used to write out strings of text, to keep clutter in main low
     public class MenuWriter
     {
         public static void Welcome()
@@ -16,7 +17,7 @@ namespace LabTwo
                 Thread.Sleep(10);
             }
             Console.WriteLine("");
-            Console.WriteLine("1: Login \n2: Create User \n3: View all Customers");
+            Console.WriteLine("1: Login \n2: Create User \n3: View all Customers \n4: Close store");
 
         }
         public static void CustomerList(Customer[] customers)
@@ -34,8 +35,9 @@ namespace LabTwo
             Console.WriteLine("Select from the below options");
             Console.WriteLine("1: View user info");
             Console.WriteLine("2: View cart");
-            Console.WriteLine("3: Add/remove items from cart");
-            Console.WriteLine("4: Checkout");
+            Console.WriteLine("3: Add items to cart");
+            Console.WriteLine("4: Logout");
+            Console.WriteLine("5: Checkout");
         }
         public static void AnyKeyReturn()
         {

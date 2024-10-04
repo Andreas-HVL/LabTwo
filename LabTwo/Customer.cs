@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using LabTwo;
 
 namespace LabTwo
-{
+{ 
+    // Class to handle the customer information and cart + login function
     public class Customer
     {
         public string Username { get; private set; }
@@ -25,6 +26,7 @@ namespace LabTwo
             _cart = new List<Product>();
         }
 
+        // Simple function that prints out the customer information
         public void PrintInfo()
         {
             Console.WriteLine("Here's your account information:");
@@ -33,8 +35,10 @@ namespace LabTwo
             Console.WriteLine($"Premium Level: {premiumLevel}");
         }
 
+        // Takes the current instance of the customer's cart, and prints it out using the function in the Cart Class
         public virtual void PrintCart() => Cart.CartPrinter(_cart);
 
+        // Function used to add items to the cart, used in the Product Class
         public void CartItemAdd(Product input, int quantity)
         {
             for (int i = 0; i < quantity; i++)
@@ -43,12 +47,14 @@ namespace LabTwo
             }
         }
        
+        // Login function
         public bool Login(string inputUsername, string inputPassword)
         {
             return this.Username.Equals(inputUsername, StringComparison.OrdinalIgnoreCase) && this.Password == inputPassword;
         }
     }
 
+    // Subclass of Customer, used to separate customers from premium customers, limited usability currently due to only difference being a discount.
     public class PremiumCustomer : Customer
     {
         public int discount {  get; set; }
@@ -65,10 +71,9 @@ namespace LabTwo
                 _ => 0
             };
         }
-        public override void PrintCart()
-        {
-            Cart.CartPrinter(_cart, discount);  // Pass the discount to the CartPrinter
-        }
+
+        // Slightly difference function used to print the cart for premium users
+        public override void PrintCart() => Cart.CartPrinter(_cart, discount);
     }
 
 }

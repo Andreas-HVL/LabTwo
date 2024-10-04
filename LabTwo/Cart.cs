@@ -53,7 +53,7 @@ namespace LabTwo
             ConsoleKeyInfo cki;
 
             Console.WriteLine("Please select the desired currency");
-            Console.WriteLine("1: Swedish Krone (SEK)");
+            Console.WriteLine("1: Swedish Krona (SEK)");
             Console.WriteLine("2: American Dollars (USD)");
             Console.WriteLine("3. Euro (EUR)");
             
@@ -84,12 +84,15 @@ namespace LabTwo
                     break;
             }
             Console.Clear();
+
             Console.WriteLine("Products in Cart:");
+            // Uses the earlier groupedCart variable to group the products in the cart together, to have a neat list of each individual product.
+            // If the customer is premium, it adds the discount to the items and calculates price before and after discount.
             if (discount == 0)
             {
                 foreach (var item in groupedCart)
                 {
-                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency} {Math.Round(item.TotalPrice, 2)}");
+                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency} {Math.Round(item.TotalPrice, 2)}, Price per item: {item.TotalPrice / item.Quantity}");
                 }
                 Console.WriteLine($"Total Price {currency} {Math.Round(totalCartPrice, 2)}");
             }
@@ -97,7 +100,8 @@ namespace LabTwo
             {
                 foreach (var item in groupedCart)
                 {
-                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency} {Math.Round(item.TotalPrice - (item.TotalPrice * discount / 100)),2}");
+                    double discountedPrice = Math.Round((item.TotalPrice - (item.TotalPrice * discount / 100)), 2);
+                    Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency} {discountedPrice}, Price per item: {discountedPrice / item.Quantity}");
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Total Price: {currency} {Math.Round(totalCartPrice - (totalCartPrice * discount / 100))}\n");

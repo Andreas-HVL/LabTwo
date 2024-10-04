@@ -3,83 +3,89 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
-/// Serialise User/password, som private i customer class, send til manager.
-/// 
+Manager.UserListCreator(); // Creates the userlist, if not present on the machine
+Manager.ProductListCreator(); // Creates the productslist, if not present on the machine
+MenuOptions program = new MenuOptions(); // Instantiates a class of the MenuOptions to call different methods for running the program
+bool isLoggedIn = false; // Variable used to navigate to the logged in part of the code
+bool stayInMenu = true; // Variable used to stay on the main menu, allowing the user to hop between different main menu options
+bool programRunning = true; // Variable to allow the user to log back out without closing the program
+Customer? CurrentCustomer = null; // Variable used to store the logged in user for later use
+ConsoleKeyInfo cki; // Variable to take keypress inputs from the user
 
-//Webstore
-Manager.UserListCreator();
-Manager.ProductListCreator();
-MenuOptions program = new MenuOptions();
-
-ConsoleKeyInfo cki;
-bool isLoggedIn = false;
-bool stayInMenu = true;
-Customer? CurrentCustomer = null;
-
+// Loop keeping the program running until the user requests closing the program
 do
 {
-    MenuWriter.Welcome();
+    // Loop for before the user is logged in, letting the customer hop between different menu options
     do
     {
-        cki = Console.ReadKey(true);
-    }
-    while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3');
-    switch (cki.KeyChar)
-    {
-        case '1':
-            Console.Clear();
-            isLoggedIn = program.Login(out CurrentCustomer, out isLoggedIn);
-            if (isLoggedIn)
-            {
+        Console.Clear();
+        MenuWriter.Welcome();
+        do
+        {
+            cki = Console.ReadKey(true);
+        }
+        while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4');
+        switch (cki.KeyChar)
+        {
+            case '1': // Login function
+                Console.Clear();
+                isLoggedIn = program.Login(out CurrentCustomer, out isLoggedIn);
+                if (isLoggedIn)
+                {
+                    stayInMenu = false;
+                }
+                break;
+            case '2': // Create Customer function
+                program.CreateCustomer();
+                break;
+            case '3': // Prints the customer list
+                program.CustomerList();
+                MenuWriter.AnyKeyReturn();
+                break;
+            case '4': // Closes the program
+                Console.Clear();
+                Console.WriteLine("Thanks for stopping by. Hope to see you soon.");
                 stayInMenu = false;
-            }
-            break;
-        case '2':
-            program.CreateCustomer();
-            break;
-        case '3':
-            program.CustomerList();
-            break;
-    }
-} while (stayInMenu);
-while (isLoggedIn)
-{
-    Console.Clear();
-    MenuWriter.LoggedInMenu();
-    do
+                programRunning = false;
+                break;
+        }
+    } while (stayInMenu);
+    // Loop for when the user is logged in, allowing hopping between different logged in menu options
+    while (isLoggedIn)
     {
-        cki = Console.ReadKey(true);
+        Console.Clear();
+        MenuWriter.LoggedInMenu();
+        do
+        {
+            cki = Console.ReadKey(true);
+        }
+        while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4' && cki.KeyChar != '5');
+        switch (cki.KeyChar)
+        {
+            case '1': // Prints out the customer's user info
+                Console.Clear();
+                CurrentCustomer.PrintInfo();
+                MenuWriter.AnyKeyReturn();
+                break;
+            case '2': // Prints out the customer's cart
+                Console.Clear();
+                CurrentCustomer.PrintCart();
+                MenuWriter.AnyKeyReturn();
+                break;
+            case '3': // Adding items to the customers cart
+                Console.Clear();
+                Product.AddToCart(CurrentCustomer);
+                break;
+            case '4': // Logout function
+                Console.Clear();
+                isLoggedIn = false;
+                break;
+            case '5': // Make-Believe Checkout function, closing the program
+                Console.Clear();
+                MenuWriter.ExitMenu();
+                isLoggedIn = false;
+                programRunning = false;
+                break;
+        }
     }
-    while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4');
-    switch(cki.KeyChar)
-    {
-        case '1':
-            Console.Clear();
-            CurrentCustomer.PrintInfo();
-            MenuWriter.AnyKeyReturn();
-            break;
-        case '2':
-            Console.Clear();
-            CurrentCustomer.PrintCart();
-            MenuWriter.AnyKeyReturn();
-            break;
-        case '3':
-            Console.Clear();
-            Product.AddToCart(CurrentCustomer);
-            break;
-        case '4':
-            Console.Clear();
-            MenuWriter.ExitMenu();
-            isLoggedIn = false;
-            break;
-    }
-}
-
-/// 1: View user info
-/// 2: View Cart
-/// 3: Add/remove from cart
-/// 4: Checkout
-
-
-
-
+} while (programRunning);
