@@ -54,7 +54,7 @@ namespace LabTwo
                     }
                 }
 
-                                Console.Write("\nEnter the number of the product you would like to add to your cart:  ");
+                Console.Write("\nEnter the number of the product you would like to add to your cart:  ");
                 do
                 {
                     cki = Console.ReadKey(true);

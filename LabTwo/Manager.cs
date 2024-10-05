@@ -57,7 +57,7 @@ namespace LabTwo
             string jsonFolderPath = Path.Combine(baseDirectory, "Json");
             string productFilePath = Path.Combine(baseDirectory, "Json", "Products.json");
 
-        // If the folder and file are missing, creates them.
+            // If the folder and file are missing, creates them.
             if (!Directory.Exists(jsonFolderPath))
             {
                 Directory.CreateDirectory(jsonFolderPath);
