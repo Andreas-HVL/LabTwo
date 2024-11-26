@@ -1,10 +1,24 @@
-﻿using LabTwo;
+﻿using LabTwo.Functionality;
+using LabTwo.Management;
+using LabTwo.Models;
 using System;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
-Manager.UserListCreator(); // Creates the userlist, if not present on the machine
-Manager.ProductListCreator(); // Creates the productslist, if not present on the machine
+try
+{
+    // Initialize runtime data
+    Manager.LoadProducts();
+    Manager.LoadUsers();
+    
+}
+catch (Exception ex)
+{
+    Console.WriteLine("The program encountered a critical error during initialization and must shut down.");
+    Console.WriteLine($"Error: {ex.Message}");
+    Environment.Exit(1); // Force the program to exit with an error code
+}
+
 MenuOptions program = new MenuOptions(); // Instantiates a class of the MenuOptions to call different methods for running the program
 bool isLoggedIn = false; // Variable used to navigate to the logged in part of the code
 bool stayInMenu = true; // Variable used to stay on the main menu, allowing the user to hop between different main menu options
@@ -55,12 +69,8 @@ do
     {
         Console.Clear();
         MenuWriter.LoggedInMenu();
-        do
-        {
-            cki = Console.ReadKey(true);
-        }
-        while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3' && cki.KeyChar != '4' && cki.KeyChar != '5');
-        switch (cki.KeyChar)
+        var menuChoice = InputReader.SingleKey(7);
+        switch (menuChoice)
         {
             case '1': // Prints out the customer's user info
                 Console.Clear();
@@ -80,7 +90,15 @@ do
                 Console.Clear();
                 isLoggedIn = false;
                 break;
-            case '5': // Make-Believe Checkout function, closing the program
+            case '5':
+                Console.Clear();
+                Manager.AddProduct();
+                break;
+            case '6':
+                Console.Clear();
+                Manager.RemoveProduct();
+                break;
+            case '7': // Make-Believe Checkout function, closing the program
                 Console.Clear();
                 MenuWriter.ExitMenu();
                 isLoggedIn = false;

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using LabTwo;
+using LabTwo.Functionality;
 
-namespace LabTwo
-{ 
+namespace LabTwo.Models
+{
     // Class to handle the customer information and cart + login function
     public class Customer
     {
@@ -20,8 +20,8 @@ namespace LabTwo
 
         public Customer(string username, string password, string premiumLevel = "Base")
         {
-            this.Username = username;
-            this.Password = password;
+            Username = username;
+            Password = password;
             this.premiumLevel = premiumLevel;
             _cart = new List<Product>();
         }
@@ -46,22 +46,22 @@ namespace LabTwo
                 _cart.Add(input);
             }
         }
-       
+
         // Login function
         public bool Login(string inputUsername, string inputPassword)
         {
-            return this.Username.Equals(inputUsername, StringComparison.OrdinalIgnoreCase) && this.Password == inputPassword;
+            return Username.Equals(inputUsername, StringComparison.OrdinalIgnoreCase) && Password == inputPassword;
         }
     }
 
     // Subclass of Customer, used to separate customers from premium customers, limited usability currently due to only difference being a discount.
     public class PremiumCustomer : Customer
     {
-        public int discount {  get; set; }
-        
+        public int discount { get; set; }
+
         public PremiumCustomer(string Username, string password, string premiumLevel) : base(Username, password, premiumLevel)
         {
-            this.CustomerType = "PremiumCustomer"; 
+            CustomerType = "PremiumCustomer";
 
             discount = premiumLevel switch
             {

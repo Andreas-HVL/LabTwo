@@ -1,4 +1,4 @@
-﻿using LabTwo;
+﻿using LabTwo.Management;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LabTwo
+namespace LabTwo.Models
 {
     // Product class, also handling adding products to the cart
     public class Product
     {
         public string itemName { get; private set; }
         public double price { get; private set; }
-        
+
         public Product(string itemName, double price)
         {
             this.itemName = itemName;
@@ -25,12 +25,12 @@ namespace LabTwo
             ConsoleKeyInfo cki; // Variable used for menu options
             bool add = true; // Variable used to allow the user to keep adding items until they want to stop
             Product[] products = Manager.LoadProducts(); // Imports the list of products available in the store
-            
+
             // Discount used for Premium Customers, imported in case of the logged in user being a Premium customer
-            int discount = 0; 
+            int discount = 0;
             if (cart is PremiumCustomer premiumCustomer)
             {
-                discount = premiumCustomer.discount; 
+                discount = premiumCustomer.discount;
             }
 
             // Loop to keep adding products
@@ -55,16 +55,34 @@ namespace LabTwo
                 }
 
                 Console.Write("\nEnter the number of the product you would like to add to your cart:  ");
-                do
+                int productIndex;
+                while (true)
                 {
-                    cki = Console.ReadKey(true);
+                    string input = Console.ReadLine();
+
+                    // Try to parse the input as an integer
+                    if (int.TryParse(input, out productIndex))
+                    {
+                        // Check if the number is within the valid range
+                        if (productIndex >= 1 && productIndex <= products.Length)
+                        {
+                            productIndex -= 1; // Adjust for zero-based indexing
+                            break; // Exit the loop if input is valid
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Invalid input. Please enter a number between 1 and {products.Length}.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                    }
                 }
-                while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3');
-                
-                // Takes the input from the customer of selected item, subtracts 1 to get the index from the above for-loop to select the item
-                int productIndex = int.Parse(cki.KeyChar.ToString()) - 1;
+
+
                 Product selectedProduct = products[productIndex]; // Sets the current selected product as a new class, to add to the cart
-                
+
                 Console.Write($"\nHow many {selectedProduct.itemName}(s) would you like to add?:  ");
                 string quantityInput = Console.ReadLine();
                 int quantity;
@@ -82,7 +100,7 @@ namespace LabTwo
 
                     Console.ResetColor();
                 }
-                
+
 
                 Console.Write("\nPress 1 to continue shopping, otherwise press any key to return back to main menu. ");
                 cki = Console.ReadKey(true);

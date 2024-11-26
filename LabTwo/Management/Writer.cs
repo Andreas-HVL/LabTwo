@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LabTwo.Models;
 
-namespace LabTwo
+namespace LabTwo.Management
 {
     // Class used to write out strings of text, to keep clutter in main low
     public class MenuWriter
@@ -25,7 +26,7 @@ namespace LabTwo
             int i = 0;
             foreach (Customer customer in customers)
             {
-                Console.WriteLine((i + 1) + " " + customer.Username);
+                Console.WriteLine(i + 1 + " " + customer.Username);
                 i++;
             }
         }
@@ -37,7 +38,9 @@ namespace LabTwo
             Console.WriteLine("2: View cart");
             Console.WriteLine("3: Add items to cart");
             Console.WriteLine("4: Logout");
-            Console.WriteLine("5: Checkout");
+            Console.WriteLine("5: Add Products");
+            Console.WriteLine("6: Remove Products");
+            Console.WriteLine("7: Checkout");
         }
         public static void AnyKeyReturn()
         {

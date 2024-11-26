@@ -4,8 +4,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using LabTwo.Models;
 
-namespace LabTwo
+namespace LabTwo.Functionality
 {
     // Class to handle the creation and functionality of the shopping cart of a logged in user.
     public class Cart
@@ -27,7 +28,7 @@ namespace LabTwo
                 ))
                 .ToList();
         }
-        
+
         // Used to convert the individual prices of items in the cart for currency conversion
         private static List<Product> ConvertCartPrices(List<Product> cart, Func<double, double> conversionFunc)
         {
@@ -46,7 +47,7 @@ namespace LabTwo
                 Console.WriteLine("Your cart is empty.");
                 return;
             }
-            
+
             string currency = "";
             var groupedCart = GroupCartByProduct(cart);
             double totalCartPrice = groupedCart.Sum(item => item.TotalPrice);
@@ -56,14 +57,14 @@ namespace LabTwo
             Console.WriteLine("1: Swedish Krona (SEK)");
             Console.WriteLine("2: American Dollars (USD)");
             Console.WriteLine("3. Euro (EUR)");
-            
+
             // Awaits a valid input from the user
             do
             {
                 cki = Console.ReadKey(true);
             }
             while (cki.KeyChar != '1' && cki.KeyChar != '2' && cki.KeyChar != '3');
-            
+
             // Handles the selection of currency to be used for showing the cart.
             switch (cki.KeyChar)
             {
@@ -100,30 +101,30 @@ namespace LabTwo
             {
                 foreach (var item in groupedCart)
                 {
-                    double discountedPrice = Math.Round((item.TotalPrice - (item.TotalPrice * discount / 100)), 2);
+                    double discountedPrice = Math.Round(item.TotalPrice - item.TotalPrice * discount / 100, 2);
                     Console.WriteLine($"{item.Quantity} x {item.ItemName}, Price: {currency} {discountedPrice}, Price per item: {discountedPrice / item.Quantity}");
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Total Price: {currency} {Math.Round(totalCartPrice - (totalCartPrice * discount / 100))}\n");
+                Console.WriteLine($"Total Price: {currency} {Math.Round(totalCartPrice - totalCartPrice * discount / 100)}\n");
                 Console.ResetColor();
                 Console.WriteLine($"Original Total without your premium discount: {currency} {Math.Round(totalCartPrice, 2)}\n");
             }
-            
+
         }
-        
-        
+
+
         // Functions to convert the currency from SEK to USD or EUR
         public static double ConvertSEKToUSD(double sekPrice)
         {
             const double SEKtoUSDRate = 0.098;
-            return Math.Round((sekPrice * SEKtoUSDRate), 2);
+            return Math.Round(sekPrice * SEKtoUSDRate, 2);
         }
         public static double ConvertSEKToEUR(double sekPrice)
         {
             const double SEKtoEURRate = 0.088;
-            return Math.Round((sekPrice * SEKtoEURRate), 2);
+            return Math.Round(sekPrice * SEKtoEURRate, 2);
         }
 
-    }   
+    }
 }
 
